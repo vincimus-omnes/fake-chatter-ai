@@ -6,6 +6,8 @@ def record_speech(duration):
     sampling_frequency = 48000
     
     recording_duration = duration
+
+    audio_path = "recording0.wav"
     
     # Start recorder with the given values 
     # of duration and sample frequency
@@ -18,6 +20,8 @@ def record_speech(duration):
     
     # This will convert the NumPy array to an audio
     # file with the given sampling frequency
-    write("recording0.wav", sampling_frequency, recording)
+    write(audio_path, sampling_frequency, recording)
 
     print("Sound written to file")
+
+    return audio_path
