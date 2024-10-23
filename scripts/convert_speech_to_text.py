@@ -5,4 +5,4 @@ def convert_speech(audio_path):
     result = model.transcribe(audio_path)
     return result["text"]
 
-convert_speech("recording0.wav")
+# convert_speech("recording0.wav")
