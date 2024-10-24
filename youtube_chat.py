@@ -3,17 +3,17 @@ import json
 import time
 import random
 from googleapiclient.discovery import build
-from youtube_auth import Authorize
+from scripts.youtube_auth import Authorize
 
-authResponse = Authorize(os.path.dirname(os.path.realpath(__file__)) + '/client_secret.json')
+authResponse = Authorize(os.path.dirname(os.path.realpath(__file__)) + '/scripts/client_secret.json')
 credentials = authResponse.credentials
 
 # Building the youtube object:
 youtube = build('youtube', 'v3', credentials=credentials)
 
 # Settings
-_delay = 1
-
+_delay = 20
+youtube_log_filepath = 'youtube_chat_log.txt'
 
 
 def getLiveChatId(LIVE_STREAM_ID):
@@ -63,7 +63,7 @@ def start_youtube_bot():
 
     while True:
         # bot replies to every message within past 1 second (can be changed to add delay):
-        time.sleep(1)
+        time.sleep(_delay)
 
         notReadMessages = []  # List of messages not yet read by bot
 
@@ -96,7 +96,8 @@ def start_youtube_bot():
             userId = message[0]
             message = message[1]
             userName = getUserName(userId)
-            print("New Message: ", message)
+            with open(youtube_log_filepath,'a') as f:
+                f.write(message + '\n')
 
-# if __name__ == "__main__":
-#     main()
+if __name__ == "__main__":
+    start_youtube_bot()

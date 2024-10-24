@@ -5,8 +5,14 @@ from dotenv import load_dotenv
 load_dotenv()
 access_token = os.getenv('TWITCH_ACCESS_TOKEN')
 
+twitch_log_filepath = 'twitch_chat_log.txt'
+
+with open(twitch_log_filepath,'w') as f:
+    f.write("")
 
 class Bot(commands.Bot):
+
+    queue = None
 
     def __init__(self):
         # Initialise our Bot with our access token, prefix and a list of channels to join on boot...
@@ -18,7 +24,10 @@ class Bot(commands.Bot):
         print(f'User id is | {self.user_id}')
 
     async def event_message(self, message):
-        print(message.content)
+        # self.queue.put(message.content)
+        # print(message.content)
+        with open(twitch_log_filepath,'a') as f:
+            f.write(message.content + '\n')
 
     @commands.command()
     async def hello(self, ctx: commands.Context):
@@ -26,5 +35,5 @@ class Bot(commands.Bot):
         await ctx.send(f'Hello {ctx.author.name}!')
 
 
-# bot = Bot()
-# bot.run()
+bot = Bot()
+bot.run()
